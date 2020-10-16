@@ -16,8 +16,10 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val inflater = layoutInflater
+        binding = ActivityLoginBinding.inflate(inflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.toolbarLogin)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         mAuth = FirebaseAuth.getInstance()
 

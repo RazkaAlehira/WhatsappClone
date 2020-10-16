@@ -21,8 +21,10 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val inflater = layoutInflater
+        binding = ActivityRegisterBinding.inflate(inflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.toolbarRegister)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         mAuth = FirebaseAuth.getInstance()
 

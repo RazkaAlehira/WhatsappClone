@@ -29,12 +29,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val inflater = layoutInflater
+        binding = ActivityMainBinding.inflate(inflater)
         setContentView(binding.root)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
-        viewPagerAdapter.addFragment(ChatFragment(), "Chats")
+        viewPagerAdapter.addFragment(ChatFragment(), "Chat")
         viewPagerAdapter.addFragment(SearchFragment(), "Search")
         viewPagerAdapter.addFragment(SettingsFragment(), "Settings")
 
@@ -76,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                 val intentWelcome = Intent(this, WelcomeActivity::class.java)
                 intentWelcome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intentWelcome)
-                toast("User berhasil Logout")
+                toast("User Log Out")
                 finish()
                 true
             }
