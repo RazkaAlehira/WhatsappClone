@@ -15,6 +15,7 @@ import com.example.whatsappclone.fragment.SearchFragment
 import com.example.whatsappclone.fragment.SettingsFragment
 import com.example.whatsappclone.model.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dbRef: DatabaseReference
     private lateinit var userCurrent: User
     private lateinit var userId: String
+    var refUsers: DatabaseReference? = null
+    var firebaseUser: FirebaseUser? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +38,9 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        firebaseUser = FirebaseAuth.getInstance().currentUser
+        refUsers = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser!!.uid)
+
         val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPagerAdapter.addFragment(ChatFragment(), "Chat")
         viewPagerAdapter.addFragment(SearchFragment(), "Search")
@@ -43,15 +49,18 @@ class MainActivity : AppCompatActivity() {
         view_pager.adapter = viewPagerAdapter
         tab_layout.setupWithViewPager(view_pager)
 
+
         mAuth = FirebaseAuth.getInstance()
         userId = mAuth.currentUser?.uid.toString()
         dbRef = FirebaseDatabase.getInstance().reference.child("Users").child(userId)
+
+        // Display Username & Profile Picture
         dbRef.addListenerForSingleValueEvent (
             object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     userCurrent = snapshot.getValue(User::class.java) as User
-                    user_name.text = userCurrent.username
-                    if (userCurrent.profile.isNotBlank()) Picasso.get().load(userCurrent.profile)
+                    user_name.text = userCurrent.getUserName()
+                    if (userCurrent.getProfile()!!.isNotBlank()) Picasso.get().load(userCurrent.getProfile())
                         .centerCrop().placeholder(R.drawable.profile).into(profile_image)
                 }
 
