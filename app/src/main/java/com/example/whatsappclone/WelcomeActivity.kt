@@ -6,8 +6,6 @@ import android.os.Bundle
 import com.example.whatsappclone.databinding.ActivityWelcomeBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_register.*
 
 class WelcomeActivity : AppCompatActivity() {
 
@@ -20,12 +18,12 @@ class WelcomeActivity : AppCompatActivity() {
         binding = ActivityWelcomeBinding.inflate(inflater)
         setContentView(binding.root)
 
-        btn_login.setOnClickListener {
+            binding.btnLogin.setOnClickListener {
             val intentLogin = Intent(this, LoginActivity::class.java)
             startActivity(intentLogin)
         }
 
-        btn_register.setOnClickListener {
+            binding.btnRegister.setOnClickListener {
             val intentRegister = Intent(this, RegisterActivity::class.java)
             startActivity(intentRegister)
         }
