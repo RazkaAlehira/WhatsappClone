@@ -11,6 +11,10 @@ import com.example.whatsappclone.adapter.UserSearchItemVH
 import com.example.whatsappclone.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 
 class SearchFragment : Fragment() {
@@ -32,6 +36,20 @@ class SearchFragment : Fragment() {
     }
 
     private fun retrieveAlluser() {
-        var firebaseUser: FirebaseAuth
+
+        val firebaseUserID = FirebaseAuth.getInstance().currentUser!!.uid
+
+        val refUsers = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUserID)
+
+        refUsers.addValueEventListener(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 }
