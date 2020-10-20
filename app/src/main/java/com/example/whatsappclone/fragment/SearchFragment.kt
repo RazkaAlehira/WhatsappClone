@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.whatsappclone.R
 import com.example.whatsappclone.adapter.UserSearchItemAdapter
-import com.example.whatsappclone.adapter.UserSearchItemVH
 import com.example.whatsappclone.model.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -42,6 +40,36 @@ class SearchFragment : Fragment() {
         val refUsers = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUserID)
 
         refUsers.addValueEventListener(object : ValueEventListener {
+
+            override fun onDataChange(p0: DataSnapshot) {
+                (mUser as ArrayList<User>).clear()
+                for (snapshot in p0.children) {
+                    val user: User? = p0.getValue(User::class.java)
+                    if (!(user!!.getUID()).equals(firebaseUserID)) {
+                        (mUser as ArrayList<User>).add(user)
+                    }
+                }
+
+                UserSearchItemAdapter = UserSearchItemAdapter()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
+    private fun searchForUser(str: String) {
+
+        val firebaseUserID = FirebaseAuth.getInstance().currentUser!!.uid
+        val queryUsers = FirebaseDatabase.getInstance().reference
+            .child("Users")
+            .orderByChild("search")
+            .startAt(str)
+            .endAt(str + "\uf8ff ")
+
+        queryUsers.addValueEventListener(object : ValueEventListener {
+
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 TODO("Not yet implemented")

@@ -47,11 +47,11 @@ class LoginActivity : AppCompatActivity() {
                         val intentMain = Intent(this, MainActivity::class.java)
                         intentMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intentMain)
-                        toast("User berhasil Login")
+                        toast("Login Successfull")
                         finish()
                     } else {
                         it.exception?.message?.let {
-                            toast("Gagal Login User.\nError : $it")
+                            toast("UnSuccessfull Login.\nError : $it")
                         }
                     }
                 }
@@ -60,6 +60,6 @@ class LoginActivity : AppCompatActivity() {
         }
         val message =
             if (email.isBlank()) "Email" else "Password "
-        toast("$message tidak boleh kosong")
+        toast("$message Can't Be Empty")
     }
 }
